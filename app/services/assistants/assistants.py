@@ -1,3 +1,5 @@
+import logging
+
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage
 from langchain_core.messages import SystemMessage
@@ -7,6 +9,9 @@ from app.services.assistants.templates import (
     MARKETING_SPECIALIST_PROMPT_TEMPLATE,
 )
 from app.services.assistants.errors import WrongQueryError
+
+
+logger = logging.getLogger(__name__)
 
 
 class BaseAssistant:
@@ -21,6 +26,7 @@ class BaseAssistant:
         answer = self.llm(
             [SystemMessage(content=self.prompt), HumanMessage(content=query)]
         )
+        logger.info({"query": query, "agent": self.agent, "answer": answer.content})
         return answer.content
 
     async def _get_agent_or_raise_exception(self, query: str) -> str:
