@@ -6,7 +6,7 @@ from fastapi.openapi.utils import get_openapi
 
 from app.settings import settings
 from app.api.api_v1.api import api_router
-from app.errors.app_errors import BaseError
+from app.services.assistants.errors import BaseError
 
 
 app = FastAPI()

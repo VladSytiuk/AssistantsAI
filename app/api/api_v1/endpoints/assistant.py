@@ -1,16 +1,20 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-from app.services.assistants import BaseAssistant
+from app.api.dependencies import get_store, get_assistant
+from app.services.assistants.assistants import BaseAssistant
 from app.schemas.query import Query
-from app.services.store import JsonlStore
+from app.storages import BaseStore
+
 
 router = APIRouter()
 
 
 @router.post("/query")
-async def send_query(query: Query):
-    assistant_service = BaseAssistant()
-    answer = await assistant_service.process_query(query.query)
-    store_service = JsonlStore()
-    await store_service.store(query.query, assistant_service.agent, answer)
+async def send_query(
+    query: Query,
+    store: BaseStore = Depends(get_store),
+    assistant: BaseAssistant = Depends(get_assistant),
+):
+    answer = await assistant.process_query(query.query)
+    await store.store(query.query, assistant.agent, answer)
     return {"message": answer}

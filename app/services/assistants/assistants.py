@@ -2,11 +2,11 @@ from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage
 from langchain_core.messages import SystemMessage
 
-from app.errors.app_errors import WrongQueryError
-from app.templates import (
+from app.services.assistants.templates import (
     TRAVEL_AGENT_PROMPT_TEMPLATE,
     MARKETING_SPECIALIST_PROMPT_TEMPLATE,
 )
+from app.services.assistants.errors import WrongQueryError
 
 
 class BaseAssistant:

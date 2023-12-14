@@ -1,12 +1,6 @@
-from abc import ABC, abstractmethod
-
 import jsonlines
 
-
-class BaseStore(ABC):
-    @abstractmethod
-    def store(self, query, agent, answer):
-        pass
+from app.storages.base import BaseStore
 
 
 class JsonlStore(BaseStore):
